@@ -2,8 +2,34 @@ from requests import get,utils
 from bs4 import BeautifulSoup
 from fake_useragent import FakeUserAgent
 from config import Config
+from os import mkdir
 
-def download_image(page=1):
+def make_dir(dir_name:str,path:str = Config.path_orders):
+    mkdir(path+dir_name)
+    return path+dir_name+"/"
+
+def download_images(link:str,title:str):
+    headers = utils.default_headers()
+    headers.update({
+        "user-agent":FakeUserAgent().random
+    })
+    r = get(link,headers)
+    soup = BeautifulSoup(r.text,"lxml")
+    carousel = soup.find("ul",{"class":"owl-carousel"})
+    try:
+        images = carousel.find_all("img")
+    except AttributeError:
+        return
+    order_dir = make_dir(title)
+    for img in images:
+        img = img["src"]
+        title_img = img.split("/")[-1]
+        init_img = get(f"https://flameingame.ru{img}",headers=headers)
+        with open(f"{order_dir}{title_img}","wb+") as f:
+            f.write(init_img.content)
+
+
+def download_main_image():
     headers = utils.default_headers()
     headers.update({
         "user-agent":FakeUserAgent().random
@@ -14,12 +40,15 @@ def download_image(page=1):
         catalog_section = soup.find("div",{"class":"catalog_section"})
         cards_games = catalog_section.find_all("div",{"class":"card_row"})
         for j in range(len(cards_games)):
-            img = cards_games[j].find("a",{"class":"game_image"}).attrs["style"]
+            a = cards_games[j].find("a",{"class":"game_image"})
+            link = f"https://flameingame.ru{a.attrs['href']}"
+            img = a.attrs["style"]
             img = f"https://flameingame.ru{img.strip().split(':')[-1].strip()[3:-1].strip('()')}"
             title = img.split("/")[-1]
+            download_images(link,title[:-4])
             init_img = get(img,headers=headers)
             print(img)
-            with open(f"{Config.path_orders}{title}.jpg","wb+") as f:
+            with open(f"{Config.path_orders}{title}","wb+") as f:
                 f.write(init_img.content)
 
         
