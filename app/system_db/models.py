@@ -7,7 +7,8 @@ class Orders(Base):
     order_id:Mapped[int] = mapped_column(primary_key=True)
     title:Mapped[str] = mapped_column(String(255),unique=True)
     body:Mapped[str] = mapped_column(String(25000))
-    image:Mapped[str] = mapped_column(String(355))
+    main_image:Mapped[str] = mapped_column(String(355))
+    images:Mapped[str] = mapped_column(String(355))
     full_price:Mapped[float]
     price:Mapped[float]
 

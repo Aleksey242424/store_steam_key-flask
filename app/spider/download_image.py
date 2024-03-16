@@ -4,7 +4,7 @@ from fake_useragent import FakeUserAgent
 from config import Config
 from os import mkdir
 
-def make_dir(dir_name:str,path:str = Config.path_orders):
+def make_dir(dir_name:str,path:str = Config.PATH_ORDERS):
     mkdir(path+dir_name)
     return path+dir_name+"/"
 
@@ -48,7 +48,7 @@ def download_main_image():
             download_images(link,title[:-4])
             init_img = get(img,headers=headers)
             print(img)
-            with open(f"{Config.path_orders}{title}","wb+") as f:
+            with open(f"{Config.PATH_ORDERS}{title}","wb+") as f:
                 f.write(init_img.content)
 
         

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+</head>
+<body>
+    {%for order in orders%}
+    <a href="{{url_for('store_bp.order',order_id=order.order_id)}}">
+        <div>
+            {{order.title}}
+            <img src="{{url_for('static',filename=order.main_image)}}" style="max-width: 200px;">
+        </div>
+    </a>
+    {%endfor%}
+</body>
+</html>
