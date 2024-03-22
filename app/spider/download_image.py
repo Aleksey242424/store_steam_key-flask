@@ -29,7 +29,7 @@ def download_images(link:str,title:str):
             f.write(init_img.content)
 
 
-def download_main_image():
+def download():
     headers = utils.default_headers()
     headers.update({
         "user-agent":FakeUserAgent().random

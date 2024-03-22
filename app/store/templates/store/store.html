@@ -6,11 +6,17 @@
     <title>Store</title>
 </head>
 <body>
-    {%for order in orders%}
-    <a href="{{url_for('store_bp.order',order_id=order.order_id)}}">
+    <form action="{{url_for('store_bp.store')}}" method="post" novalidate>
+        {{search_form.hidden_tag()}}
+        {{search_form.csrf_token()}}
+        {{search_form.search()}}
+        {{search_form.send()}}
+    </form> 
+    {%for order_id in orders%}
+    <a href="{{url_for('store_bp.order',order_id=orders[order_id]['order_id'])}}">
         <div>
-            {{order.title}}
-            <img src="{{url_for('static',filename=order.main_image)}}" style="max-width: 200px;">
+            {{orders[order_id]['title']}}
+            <img src="{{url_for('static',filename=orders[order_id]['main_image'])}}" style="max-width: 200px;">
         </div>
     </a>
     {%endfor%}

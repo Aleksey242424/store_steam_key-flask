@@ -6,6 +6,12 @@
     <title>{{order["title"]}}</title>
 </head>
 <body>
+    <form action="{{url_for('store_bp.order',order_id=order['order_id'])}}" method="post" novalidate>
+        {{search_form.hidden_tag()}}
+        {{search_form.csrf_token()}}
+        {{search_form.search()}}
+        {{search_form.send()}}
+    </form>
     <div>
         {{order["title"]}}
         {{order["body"]}}

@@ -2,6 +2,7 @@ from app.system_db import db_session
 from app.system_db.models import Orders
 from random import randint
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
 
 class CRUDOrders:
     @staticmethod
@@ -38,6 +39,14 @@ class CRUDOrders:
             for order in orders:
                 yield order
 
-
-
+    @staticmethod
+    def search_orders(search):
+        with db_session() as session:
+            orders = session.query(Orders.order_id).filter(
+                or_(
+                    Orders.title.ilike("%"+search+"%"),
+                    Orders.body.ilike("%"+search+"%")
+                    )
+            ).all()
+            return orders
 
