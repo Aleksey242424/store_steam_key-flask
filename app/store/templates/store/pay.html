@@ -1,0 +1,69 @@
+{%extends 'store/basic.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%block title%}<title>buy {{order["title"]}}</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    {%endblock%}
+    
+</head>
+<body>
+    {%block header%}
+    <p>{{order["price"]}}</p>
+    <form action="{{url_for('store_bp.buy_order',order_id=order['order_id'])}}" method="post" novalidate>
+        {{buy_form.hidden_tag()}}
+        {{buy_form.csrf_token()}}
+        {{buy_form.num_card()}}
+        {{buy_form.month()}}
+        {{buy_form.years()}}
+        {{buy_form.username()}}
+        {{buy_form.cvc()}}
+        
+    </form>
+    {{buy_form.buy()}}
+    <p id="error_message"></p>
+    <div>
+        <p id="key"></p>
+    </div>
+    <script>
+$(function(){
+	$('#buy').click(function(){
+                let num_card = document.getElementById("num_card")
+                let month = document.getElementById("month")
+                let years = document.getElementById("years")
+                let username = document.getElementById("username")
+                let cvc = document.getElementById("cvc")
+                let data = 0
+                console.log(num_card.value.length)
+                if (num_card.value.length == 16
+                && month.value.length == 2 && years.value.length == 4
+                && username.value.length < 255 && cvc.value.length == 3){
+                    data = 1
+                    }
+                $.ajax({
+                    url: '/register_pay',
+                    data: {'data':data},
+                    type: 'GET',
+                    success: function(response){
+                        if (response.response != 0){
+                            document.getElementById("key").innerHTML = response.response
+                        }else{
+                            let error = document.getElementById("error_message")
+                            error.innerHTML = "Не все данные заполнены"
+                            error.style.color = "red"
+                        }
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+                
+            });
+        });
+    </script>
+    {%endblock%}
+
+</body>
+</html>

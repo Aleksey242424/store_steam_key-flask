@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%block title%}
+    <title></title>
+    {%endblock%}
+</head>
+<body>
+    <header>
+        {%if request.path != url_for('store_bp.store')%}
+        <a href="{{url_for('store_bp.store')}}">store</a>
+        {%endif%}
+        {%if request.path != url_for('store_bp.list_history')%}
+        <a href="{{url_for('store_bp.list_history')}}">history</a>
+        {%endif%}
+        {%if search_form%}
+        <form action="{{request.path}}" method="post" novalidate>
+            {{search_form.hidden_tag()}}
+            {{search_form.csrf_token()}}
+            {{search_form.search()}}
+            {{search_form.send()}}
+        </form>
+        {%endif%}
+    </header>
+    {%block header%}
+    {%endblock%}
+</body>
+</html>

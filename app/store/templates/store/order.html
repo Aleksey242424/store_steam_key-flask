@@ -1,24 +1,32 @@
+{%extends 'store/basic.html'%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{order["title"]}}</title>
+    {%block title%}<title>{{order["title"]}}</title>{%endblock%}
 </head>
 <body>
-    <form action="{{url_for('store_bp.order',order_id=order['order_id'])}}" method="post" novalidate>
-        {{search_form.hidden_tag()}}
-        {{search_form.csrf_token()}}
-        {{search_form.search()}}
-        {{search_form.send()}}
-    </form>
-    <div>
-        {{order["title"]}}
-        {{order["body"]}}
-        <img src="{{url_for('static',filename=order['main_image'])}}">
-    </div>
-    {%for img in images_list%}
-    <img src="{{url_for('static',filename=img)}}">
-    {%endfor%}
+    {%block header%}
+        <div>
+            {{order["title"]}}
+            {%if order['main_image']%}
+            <img src="{{url_for('static',filename=order['main_image'])}}">
+            {%else%}
+            <img src="{{url_for('static',filename=images/orders/default_image.jpg)}}">
+            {%endif%}
+            <form action="{{url_for('store_bp.order',order_id=order['order_id'])}}" method="post" novalidate>
+                {{form_pay.hidden_tag()}}
+                {{form_pay.csrf_token()}}
+                {{form_pay.pay()}}
+            </form>
+        </div>
+        {%for content in order["body"]%}
+        <p>{{content}}</p>
+        {%endfor%}
+        {%for img in images_list%}
+        <img src="{{url_for('static',filename=img)}}">
+        {%endfor%}
+    {%endblock%}
 </body>
 </html>

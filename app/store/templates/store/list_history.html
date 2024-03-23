@@ -1,0 +1,21 @@
+{% extends 'store/basic.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%block title%}<title>Your history</title>{%endblock%}
+</head>
+<body>
+    {%block header%}
+    {%for order_id in orders%}
+    <a href="{{url_for('store_bp.order',order_id=orders[order_id]['order_id'])}}">
+        <div>
+            {{orders[order_id]["title"]}}
+            <img src="{{url_for('static',filename=orders[order_id]['main_image'])}}">
+        </div>
+    </a>
+    {%endfor%}
+    {%endblock%}
+</body>
+</html>

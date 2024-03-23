@@ -1,29 +1,26 @@
+{%extends 'store/basic.html'%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders #{{search}}</title>
+    {%block title%}<title>Orders #{{search}}</title>{%endblock%}
 </head>
 <body>
-    <form action="{{url_for('store_bp.search_orders',search=search)}}" method="post" novalidate>
-        {{search_form.hidden_tag()}}
-        {{search_form.csrf_token()}}
-        {{search_form.search()}}
-        {{search_form.send()}}
-    </form>
-    <p>найдено ({{count_orders}})</p>
-    {%if orders%}
-    {%for order in orders%}
-    <a href="{{url_for('store_bp.order',order_id=order['order_id'])}}">
-        <div>
-            <img src="{{url_for('static',filename=order['main_image'])}}">
-            {{order["title"]}}
-        </div>
-    </a>
-    {%endfor%}
-    {%else%}
-    <p>По вашему запросу ничего не найдено</p>
-    {%endif%}
+    {%block header%}
+        <p>найдено ({{count_orders}})</p>
+        {%if orders%}
+        {%for order in orders%}
+        <a href="{{url_for('store_bp.order',order_id=order['order_id'])}}">
+            <div>
+                <img src="{{url_for('static',filename=order['main_image'])}}">
+                {{order["title"]}}
+            </div>
+        </a>
+        {%endfor%}
+        {%else%}
+        <p>По вашему запросу ничего не найдено</p>
+        {%endif%}
+    {%endblock%}
 </body>
 </html>

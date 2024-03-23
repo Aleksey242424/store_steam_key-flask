@@ -1,24 +1,28 @@
+{%extends 'store/basic.html'%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store</title>
+    {%block title%}<title>Store</title>{%endblock%}
 </head>
 <body>
-    <form action="{{url_for('store_bp.store')}}" method="post" novalidate>
-        {{search_form.hidden_tag()}}
-        {{search_form.csrf_token()}}
-        {{search_form.search()}}
-        {{search_form.send()}}
-    </form> 
+    {%block header%}
     {%for order_id in orders%}
     <a href="{{url_for('store_bp.order',order_id=orders[order_id]['order_id'])}}">
         <div>
             {{orders[order_id]['title']}}
+            {%set check = g.check_exists_image(abs_path_img+'//'+orders[order_id]['main_image'])%}
+            
+            {%if check%}
             <img src="{{url_for('static',filename=orders[order_id]['main_image'])}}" style="max-width: 200px;">
+            {%endif%}
         </div>
     </a>
     {%endfor%}
+        {%for i in range(1,count_group+1)%}
+        <a href="{{url_for('store_bp.store',page=i)}}">{{i}}</a>
+        {%endfor%}
+    {%endblock%}
 </body>
 </html>
