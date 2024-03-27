@@ -1,0 +1,34 @@
+body{
+    background-color: #E63946;
+
+}
+.block_form{
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+form{
+    background-color: white;
+    padding: 20px 10px;
+    height:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+}
+form>div>input{
+    font-size: 24px;
+    border:2px solid black;
+    border-radius: 10px;
+    margin-left:10px;
+    background-color: white;
+}
+form>div>input[type="submit"]{
+    cursor: pointer;
+}
+form>p{
+    font-size: 24px;
+}

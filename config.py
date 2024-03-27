@@ -16,3 +16,11 @@ class Config:
     DB_PORT = getenv("DB_PORT")
     DB_NAME = getenv("DB_NAME")
     DB_CONNECT = f"{DB_DIALECT}+{DB_API}://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+    MAIL_SERVER = getenv("MAIL_SERVER")
+    MAIL_PORT = getenv("MAIL_PORT")
+    MAIL_USE_TLS = getenv("MAIL_USE_TLS")
+    MAIL_PASSWORD = getenv("MAIL_PASSWORD")
+    MAIL_DEFAULT_SENDER = getenv("MAIL_DEFAULT_SENDER")
+    MAIL_USERNAME = getenv("MAIL_USERNAME")
+    

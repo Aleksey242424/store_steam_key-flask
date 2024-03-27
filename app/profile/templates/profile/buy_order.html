@@ -1,0 +1,78 @@
+{%extends 'profile/basic.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%block head%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/buy_order.css')}}">
+    <title>Buy Order</title>
+    {%endblock%}
+</head>
+<body>
+    {%block header%}
+    <div class="main">
+        <div class="block">
+            <a href="{{url_for('store_bp.order',order_id=order['order_id'])}}">
+                <img src="{{url_for('static',filename=order['main_image'])}}">
+            </a>
+            <div>
+                <p>{{order['title']}}</p>
+                <p>{{order['price']}} ₽</p>
+                <p style="color: red;"><del>{{order['full_price']}}</del> ₽</p>
+                <button id="btn_steam_key" onclick="show_steam_key()">steam key</button>
+                <p id="steam_key" style="border: 2px solid black; display: none; font-size: 28px;"></p>
+            </div>
+        </div>
+        <div class="block_comment">
+            <form action="" method="post" novalidate>
+                {{form_username.csrf_token()}}
+                {{form_username.hidden_tag()}}
+                {{form_username.username()}}
+                {{form_username.update()}}
+            </form>
+            {%if not user_comment%}
+            <form action="" method="post" novalidate>
+                {{form_comment.csrf_token()}}
+                {{form_comment.hidden_tag()}}
+                {{form_comment.comment()}}
+                {{form_comment.send_comment()}}
+            </form>
+            {%else%}
+            <form action="" method="post" novalidate>
+                {{form_update.csrf_token()}}
+                {{form_update.hidden_tag()}}
+                {{form_update.comment()}}
+                {{form_update.update_comment()}}
+            </form>
+            {%endif%}
+            <div>
+                {%for comment in comments%}
+                <div class="block_user_comment">
+                    {%if comment[1].username%}
+                    <p>{{comment[1].username}}</p>
+                    {%else%}
+                    <p>Гость</p>
+                    {%endif%}
+                    {%if comment[0].user_id == session.get('auth_id')%}
+
+                        <p class="user_comment">{{comment[0].comment}}</p>
+                    {%else%}
+                        <p class="comment">{{comment[0].comment}}</p>
+                    {%endif%}
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function show_steam_key(){
+            document.getElementById('steam_key').style.display = "inline"
+            document.getElementById('steam_key').innerHTML = '{{steam_key_dec["steam_key"]}}'
+            document.getElementById('btn_steam_key').style.display = 'none'
+        }
+    </script>
+    {%endblock%}
+</body>
+</html>

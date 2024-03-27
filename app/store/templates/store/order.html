@@ -2,31 +2,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {%block head%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {%block title%}<title>{{order["title"]}}</title>{%endblock%}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/order.css')}}">
+    <title>{{order["title"]}}</title>
+    {%endblock%}
 </head>
 <body>
     {%block header%}
-        <div>
-            {{order["title"]}}
-            {%if order['main_image']%}
-            <img src="{{url_for('static',filename=order['main_image'])}}">
-            {%else%}
-            <img src="{{url_for('static',filename=images/orders/default_image.jpg)}}">
-            {%endif%}
-            <form action="{{url_for('store_bp.order',order_id=order['order_id'])}}" method="post" novalidate>
-                {{form_pay.hidden_tag()}}
-                {{form_pay.csrf_token()}}
-                {{form_pay.pay()}}
-            </form>
+        <div class="main">
+            <div class="main_block">
+                {%if order['main_image']%}
+                    <img src="{{url_for('static',filename=order['main_image'])}}">
+                {%else%}
+                    <img src="{{url_for('static',filename=images/orders/default_image.jpg)}}">
+                {%endif%}
+                <div>
+                    <p>{{order["title"]}}</p>
+                    {%set count_order = g.order_count(order["order_id"])%}
+                    <p style="font-size: 24px;">осталось: {{count_order}}</p>
+                    <p><del>{{order["full_price"]}} ₽</del></p>
+                    <form action="{{url_for('store_bp.order',order_id=order['order_id'])}}" method="post" novalidate>
+                        {{form_pay.hidden_tag()}}
+                        {{form_pay.csrf_token()}}
+                        {{form_pay.pay()}}
+                    </form>
+                </div>
+            </div>
+            <div class="block_images">
+                {%for img in images_list%}
+                    <img src="{{url_for('static',filename=img)}}" onclick="click_img(this)" style="max-width: 200px; width: 200px; height: 110px;">
+                {%endfor%}
+            </div>
         </div>
-        {%for content in order["body"]%}
-        <p>{{content}}</p>
-        {%endfor%}
-        {%for img in images_list%}
-        <img src="{{url_for('static',filename=img)}}">
-        {%endfor%}
+        <div id="fon_preview" style="display: none;" onclick="exit_fon()">
+            <img id="preview" src="#" style="display: none;">
+        </div>
+        <div class="content_block">
+            {%for content in order["body"]%}
+            {{content}}<br>
+            <br>
+            {%endfor%}
+        </div>
+        <script>
+            function exit_fon(){
+                let fon_preview = document.getElementById("fon_preview")
+                fon_preview.style.display = "none"
+            }
+            function click_img(el){
+                let preview = document.getElementById("preview")
+                let fon_preview = document.getElementById("fon_preview")
+                preview.src = el.src;
+                fon_preview.style.display = "flex"
+                preview.style.display = "block"
+                
+            }
+            let price = document.getElementById("pay")
+            price.value = "{{order['price']}} ₽"
+
+        </script>
     {%endblock%}
+
 </body>
 </html>

@@ -1,12 +1,14 @@
 from redis import Redis
 from app.system_db.orders import CRUDOrders
+from random import randint
 
 
 redis_client = Redis()
 def cache_order(user_id,order_id):
     user_orders = redis_client.lrange(f"user_id_{user_id}",0,-1)
-    if not str(order_id).encode("ascii") in user_orders:
-        redis_client.lpush(f"user_id_{user_id}",order_id)
+    if str(order_id).encode("ascii") in user_orders:
+        redis_client.lrem(f"user_id_{user_id}",1,order_id)
+    redis_client.lpush(f"user_id_{user_id}",order_id)
     redis_client.ltrim(f"user_id_{user_id}",0,11)
     order = redis_client.hgetall(f"order:{order_id}")
     order_data:dict = {k.decode('utf-8'):v.decode("utf-8") for k,v in order.items()}
@@ -33,6 +35,11 @@ def add_orders(order):
             for char in item:
                 if char.isupper():
                     title = add_chars(" ",title)
+                elif char.isdigit():
+                    title = add_chars(" ",title)
+                    title = add_chars(char,title)
+                    title = add_chars(" ",title)
+                    continue
                 title = add_chars(char,title)
         else:
             title = add_chars(item,title) + " "
@@ -49,7 +56,15 @@ def add_orders(order):
 
     redis_client.hset(f"order:{order.order_id}",mapping=order_data)
 
+    redis_client.set(f"order_count:{order.order_id}",value=randint(25,45))
+
     return order.order_id
+
+def get_count_order(order_id):
+    return redis_client.get(f"order_count:{order_id}").decode("utf-8")
+
+def del_count_orders(order_id):
+    return redis_client.decr(f"order_count:{order_id}")
 
 '''for order in CRUDOrders.get_order_for_redis():
     print(add_orders(order))'''
@@ -81,3 +96,10 @@ def get_order_history_list(user_id):
 
 def get_count_group():
     return round(len(redis_client.keys("order:*"))/10)
+
+
+def get_user_buy(order_id,steam_key):
+    order_bin_data = redis_client.hgetall(f"order:{order_id}")
+    order = {k.decode("utf-8"):v.decode("utf-8") for k,v in order_bin_data.items()}
+    order["steam_key"] = steam_key
+    return order

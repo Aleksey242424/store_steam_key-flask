@@ -2,30 +2,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {%block head%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {%block title%}<title>buy {{order["title"]}}</title>
+    <title>buy {{order["title"]}}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/pay.css')}}">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     {%endblock%}
     
 </head>
 <body>
     {%block header%}
-    <p>{{order["price"]}}</p>
-    <form action="{{url_for('store_bp.buy_order',order_id=order['order_id'])}}" method="post" novalidate>
-        {{buy_form.hidden_tag()}}
-        {{buy_form.csrf_token()}}
-        {{buy_form.num_card()}}
-        {{buy_form.month()}}
-        {{buy_form.years()}}
-        {{buy_form.username()}}
-        {{buy_form.cvc()}}
-        
-    </form>
-    {{buy_form.buy()}}
-    <p id="error_message"></p>
-    <div>
-        <p id="key"></p>
+    <div class="main">
+        <div>
+            <p><del>{{order["full_price"]}} ₽</del></p>
+            <p>{{order["price"]}} ₽</p>
+        </div>
+        <form action="{{url_for('store_bp.buy_order',order_id=order['order_id'])}}" method="post" novalidate>
+            {{buy_form.hidden_tag()}}
+            {{buy_form.csrf_token()}}
+            {{buy_form.num_card()}}
+            {{buy_form.month()}}
+            {{buy_form.years()}}
+            {{buy_form.username()}}
+            {{buy_form.cvc()}}
+            
+        </form>
+        {{buy_form.buy()}}
+        <p id="error_message"></p>
+        <div id="fon_message" style="display: none;">
+            <div>
+                <div>
+                    <p id="message" style="display: none;align-items: center;">Ваш steam ключ:</p>
+                    <p id="key" style="align-items: center;"></p>
+                    <a id="redirect" href="{{url_for('store_bp.store')}}" style="display: none;align-items: center;">OK</a>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
 $(function(){
@@ -43,16 +56,21 @@ $(function(){
                     data = 1
                     }
                 $.ajax({
-                    url: '/register_pay',
+                    url: '/register_pay/{{order["order_id"]}}',
                     data: {'data':data},
                     type: 'GET',
                     success: function(response){
                         if (response.response != 0){
+                            let error = document.getElementById("error_message")
+                            error.innerHTML = ""
+                            document.getElementById("fon_message").style.display = "block"
+                            document.getElementById("message").style.display = "inline";
+                            document.getElementById("redirect").style.display = "block";
                             document.getElementById("key").innerHTML = response.response
                         }else{
                             let error = document.getElementById("error_message")
                             error.innerHTML = "Не все данные заполнены"
-                            error.style.color = "red"
+                            error.style.color = "black"
                         }
                     },
                     error: function(error){

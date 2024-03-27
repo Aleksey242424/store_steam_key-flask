@@ -10,7 +10,7 @@ from app.store.cache_orders import add_orders
 
 from app import create_app
 
-
+from app.system_db.users import CRUDUsers
 
 if __name__ == "__main__":
     #download image

@@ -1,10 +1,30 @@
+{%extends 'auth/basic.html'%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {%block head%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
     <title>Login</title>
+    {%endblock%}
 </head>
 <body>
+    {%block header%}
+    <div class="block_form">
+        <form action="{{url_for('auth_bp.login')}}" method="post" novalidate>
+            <div>
+                {{form.hidden_tag()}}
+                {{form.csrf_token()}}
+                {{form.email()}}
+                {{form.login()}}
+            </div>
+            {% with messages = get_flashed_messages() %}
+            <p>{{messages[0]}}</p>
+            {%endwith%}
+        </form>
+    </div>
+    
+    {%endblock%}
 </body>
 </html>

@@ -1,0 +1,33 @@
+{%extends 'profile/basic.html'%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%block head%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
+    <title>Profile</title>
+    {%endblock%}
+</head>
+<body>
+    {%block header%}
+    {%if order == []%}
+    <p style="color: white; font-size: 40px; text-align: center;">У вас пока нет покупок</p>
+    {%endif%}
+    {%for order in orders%}
+    <a  href="{{url_for('profile_bp.buy_order',token=token,order_id=order['order_id'],steam_key=g.generate_token('steam_key',order['steam_key']))}}">
+        <div class="block">
+            <img src="{{url_for('static',filename=order['main_image'])}}">
+            <div>
+                <p>{{order['title']}}</p>
+                <p>{{order['price']}} ₽</p>
+                <p>steam key</p>
+            </div>
+            
+        </div>
+    </a>
+    {%endfor%}
+    {%endblock%}
+</body>
+</html>

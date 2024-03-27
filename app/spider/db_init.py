@@ -4,7 +4,7 @@ from fake_useragent import FakeUserAgent
 from config import Config
 from random import randint
 from app.system_db.orders import CRUDOrders
-from app.store.cache_orders import add_order
+from app.cache_orders import add_orders
 
 def init_orders():
     headers = utils.default_headers()
