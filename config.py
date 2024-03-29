@@ -6,7 +6,7 @@ class Config:
     DEBUG = True
     SECRET_KEY = urandom(20)
     PATH_ORDERS = getenv("PATH_ORDERS")
-    abs_path_static = path.abspath("app/static/")
+    abs_path_static = path.abspath("app/static")
     UPLOAD_ORDERS = getenv("UPLOAD_ORDERS")
     DB_DIALECT = getenv("DB_DIALECT")
     DB_API = getenv("DB_API")

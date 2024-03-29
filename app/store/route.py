@@ -79,10 +79,10 @@ def order(order_id):
         abort(404)
     images_path = order["images"]
 
-    if not path.exists(Config.abs_path_static + "\\" + order["main_image"]):
+    if not path.exists(Config.abs_path_static + "/" + order["main_image"]):
         order["main_image"] = "images/orders/default_image.jpg"
     try:
-        images_list = listdir(Config.abs_path_static+"\\"+'\\'.join(dir_ for dir_ in images_path.split("/")))
+        images_list = listdir(Config.abs_path_static+"/"+'/'.join(dir_ for dir_ in images_path.split("/")))
     except FileNotFoundError:
         images_list = []
     images_list = [images_path+"/"+image for image in images_list]
@@ -94,6 +94,7 @@ def order(order_id):
             return redirect(url_for("store_bp.search_orders",search=search))
         if request.form.get("pay"):
             return redirect(url_for("store_bp.buy_order",order_id=order["order_id"]))
+
     return render_template("store/order.html",
                            order=order,
                            images_list=images_list,
