@@ -1,3 +1,7 @@
+*{box-sizing: border-box;}
+html,body{
+    margin: 0;
+}
 body{
     background-color: #E63946;
 
@@ -9,7 +13,7 @@ body{
     align-items: center;
     justify-content: center;
 }
-form{
+.block_form>form{
     background-color: white;
     padding: 20px 10px;
     height:200px;
@@ -19,16 +23,40 @@ form{
     flex-direction: column;
     border-radius: 20px;
 }
-form>div>input{
+.block_form>form>div>input{
     font-size: 24px;
     border:2px solid black;
     border-radius: 10px;
     margin-left:10px;
     background-color: white;
 }
-form>div>input[type="submit"]{
+.block_form>form>div>input[type="submit"]{
     cursor: pointer;
 }
-form>p{
+.block_form>form>p{
     font-size: 24px;
+}
+
+@media screen and (max-width:1200px) {
+    #burger-header>form{
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        background-color: transparent;
+        height: 400px !important;
+    }
+    .block_form>form>div>p{
+        font-size: 30px;
+    }
+    .block_form>form>div{
+        padding:40px 0px;
+        height: 400px;
+    }
+    .block_form>form>div>input[type="email"]{
+        font-size: 30px !important;
+        width: 90% !important;
+    }
+    .block_form>form>div>input[type="submit"]{
+        font-size: 30px !important;
+        margin-top:20px;
+    }
 }

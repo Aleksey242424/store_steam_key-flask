@@ -17,7 +17,7 @@
             <div class="order">
                 {%set check = g.check_exists_image(abs_path_img+'//'+orders[order_id]['main_image'])%}
                 {%if check%}
-                <img src="{{url_for('static',filename=orders[order_id]['main_image'])}}" style="max-width: 200px;">
+                <img src="{{url_for('static',filename=orders[order_id]['main_image'])}}">
                 {%endif%}
                 <div>
                     <p>{{orders[order_id]['title']}}</p>

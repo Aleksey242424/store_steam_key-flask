@@ -74,3 +74,46 @@ body{
     border-radius: 40px 40px 0px 0px;
     margin: 0px 10px;
 }
+
+.block_comment{
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 60%;
+    background-color: #F1FAEE;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.block_user_comment{
+    border: solid 3px black;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2px 10px;
+    margin-top:20px;
+}
+.block_user_comment>p{
+    opacity: 0.7;
+}
+@media screen and (max-width:1200px){
+    .main_block{
+        width: 95%;
+    }
+    .main_block>div>form>input{
+        font-size: 27px;
+        background-color: transparent;
+        border:2px solid black !important;
+        cursor: pointer;
+        color: black !important;
+    }
+    .main_block>div{
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .main_block{
+        flex-wrap: wrap;
+    }
+    .block_comment{
+        width: 80% !important;
+    }
+}

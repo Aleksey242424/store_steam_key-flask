@@ -9,6 +9,11 @@
 </head>
 <body>
     <header>
+        <div class="burger" onclick="get_header()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         {%set token = g.generate_token('email',session['email'])%}
         {%if token%}
         <a href="{{url_for('profile_bp.profile',token=token)}}">
@@ -34,6 +39,50 @@
         </form>
         {%endif%}
     </header>
+    <div id="burger-header" style="display:none;">
+        {%if search_form%}
+        <form action="{{request.path}}" method="post" novalidate>
+            {{search_form.hidden_tag()}}
+            {{search_form.csrf_token()}}
+            {{search_form.search()}}
+            {{search_form.send()}}
+        </form>
+        {%endif%}
+        {%set token = g.generate_token('email',session['email'])%}
+        {%if token%}
+        <a href="{{url_for('profile_bp.profile',token=token)}}">
+            <img src="{{url_for('static',filename='images/profile.png')}}">
+        </a>
+        {%else%}
+        <a href="{{url_for('auth_bp.login')}}">
+            <img src="{{url_for('static',filename='images/profile.png')}}">
+        </a>
+        {%endif%}
+        {%if request.path != url_for('store_bp.store')%}
+        <a href="{{url_for('store_bp.store')}}">магазин</a>
+        {%endif%}
+        {%if request.path != url_for('store_bp.list_history')%}
+        <a href="{{url_for('store_bp.list_history')}}">история</a>
+        {%endif%}
+        
+    </div>
+    <script>
+        let state_adapt_header = false
+        function get_header(){
+            let adapt_header = document.getElementById("burger-header")
+            if (state_adapt_header){
+                adapt_header.style.display = "none"
+                state_adapt_header = false
+                document.getElementsByTagName("body")[0].style.position = "relative"
+                document.getElementsByClassName("main_pages")[0].style.display = "block"
+            }else{
+                state_adapt_header = true
+                adapt_header.style.display = "block"
+                document.getElementsByTagName("body")[0].style.position = "fixed"
+                document.getElementsByClassName("main_pages")[0].style.display = "none"
+            }
+        }
+    </script>
     {%block header%}
     {%endblock%}
 </body>

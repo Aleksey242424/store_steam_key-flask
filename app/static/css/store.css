@@ -21,13 +21,18 @@ body{
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .order>div{
     display: flex;
     align-items: center;
+    justify-content: center;
+    height: 100%;
     flex-direction: column;
 }
 .order>img{
+    max-width: 250px;
+    width: 250px;
     border-radius: 20px;
 }
 .order>div>p:last-child{
@@ -40,22 +45,55 @@ body{
     transition: 0.5s;
 }
 .main_pages{
-    position: fixed;
-    top: 15%;
-    left: 0;
+    margin-bottom: 20px;
 }
 .pages{
     display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    width: 100px;
-    height: 500px;
+    overflow-x: scroll;
+    width: 80%;
+    height: 100px;
     margin: 20px;
+    margin:0 auto;
 }
 .pages>a{
-    margin-left:0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     background-color: black;
     color: white;
-    padding: 10px;
     margin: 10px;
+}
+.main>p{
+    font-size: 50px;
+}
+@media screen and (max-width:1200px){
+    .main>p{
+        font-size: 50px;
+    }
+    .order_link{
+        min-width: 100% !important;
+    }
+    .order{
+        min-width: 100% !important;
+        width: auto !important;
+        justify-content: center !important;
+    }
+    .order>div{
+        font-size:40px;
+        text-align: center;
+        margin-left:10px;
+    }
+    .order>img{
+        width:300px !important;
+        max-width:300px !important;
+        height: 400px !important;
+        margin-top:20px;
+    }
+    p{
+        margin:30px 0px !important;
+    }
 }

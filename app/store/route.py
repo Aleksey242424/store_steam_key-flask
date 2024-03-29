@@ -11,6 +11,7 @@ from config import Config
 from app.store.form import PayForm,CardForm
 from random import choice
 from string import ascii_letters
+from app.system_db.comments import CRUDComments
 
 @store_bp.route("/",methods={"GET","POST"})
 def store():
@@ -85,9 +86,9 @@ def order(order_id):
     except FileNotFoundError:
         images_list = []
     images_list = [images_path+"/"+image for image in images_list]
-
+    comments = CRUDComments.get(order_id)[::-1]
     if request.method == "POST":
-        if request.form.get("send") == "search":
+        if request.form.get("send"):
             search = search_form.search.data
             search_form.search.data = ''
             return redirect(url_for("store_bp.search_orders",search=search))
@@ -97,7 +98,8 @@ def order(order_id):
                            order=order,
                            images_list=images_list,
                            search_form=search_form,
-                           form_pay = pay_form)
+                           form_pay = pay_form,
+                           comments=comments)
 
 @store_bp.route("/orders/list_history")
 def list_history():

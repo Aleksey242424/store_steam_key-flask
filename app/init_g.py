@@ -4,7 +4,7 @@ from os import path
 from app.cache_orders import get_count_order
 from jwt import encode
 
-def generate_search(bp:Blueprint):
+def init_g(bp:Blueprint):
     @bp.before_app_request
     def generate():
         g.search = SearchForm()

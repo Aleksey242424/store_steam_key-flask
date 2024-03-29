@@ -39,6 +39,26 @@
         <div id="fon_preview" style="display: none;" onclick="exit_fon()">
             <img id="preview" src="#" style="display: none;">
         </div>
+        {%if comments%}
+        <div class="block_comment">
+            <div>
+                {%for comment in comments%}
+                <div class="block_user_comment">
+                    {%if comment[1].username%}
+                    <p>{{comment[1].username}}</p>
+                    {%else%}
+                    <p>Гость</p>
+                    {%endif%}
+                    {%if comment[0].user_id == session.get('auth_id')%}
+                        <p class="user_comment">{{comment[0].comment}}</p>
+                    {%else%}
+                        <p class="comment">{{comment[0].comment}}</p>
+                    {%endif%}
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        {%endif%}
         <div class="content_block">
             {%for content in order["body"]%}
             {{content}}<br>
@@ -56,6 +76,7 @@
                 preview.src = el.src;
                 fon_preview.style.display = "flex"
                 preview.style.display = "block"
+                preview.style.maxWidth = "90%"
                 
             }
             let price = document.getElementById("pay")

@@ -18,10 +18,10 @@
                 {{form.csrf_token()}}
                 {{form.email()}}
                 {{form.login()}}
+                {% with messages = get_flashed_messages() %}
+                <p>{{messages[0]}}</p>
+                {%endwith%}
             </div>
-            {% with messages = get_flashed_messages() %}
-            <p>{{messages[0]}}</p>
-            {%endwith%}
         </form>
     </div>
     
